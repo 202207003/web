@@ -32,7 +32,7 @@
 
     $("#tbl_professors").on("click", ".delete", function(){
         const pcode = $(this).attr("pcode");
-        if(confirm(pcode + "번 교수를 정말로 삭제하실래요?")){
+        if(confirm(pcode + "번 교수를 삭제하실래요?")){
             $.ajax({
                 type:"post",
                 url:"/haksa/pro/delete",
