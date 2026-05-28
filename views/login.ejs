@@ -6,7 +6,7 @@
                     <h3 class="text-center my-3">로그인</h3>
                 </div>
                 <div class="card-body">
-                    <form name="frm" method="post">
+                    <form name="frm">
                         <input name="scode" value="92414029" class="form-control mb-2" placeholder="학생번호">
                         <input name="pass" value="1234" class="form-control mb-2" placeholder="비밀번호" type="password">
                         <button class="w-100 btn btn-primary">로그인</button>
@@ -17,31 +17,35 @@
     </div>
 </div>
 <script>
-    $(frm).on("submit", function(e) {
+    $(frm).on("submit", function(e){
         e.preventDefault();
         const scode=$(frm.scode).val();
         const pass=$(frm.pass).val();
         if(scode=="" || pass==""){
-            alert("학번이나 비밀번호를 입력하세요.");
-            $(frm.pass).focus();
-        } else {
-            // 로그인 체크
-            $.ajax ({
+            alert("학번과 비밀번호는 꼭 입력하셔야합니다.");
+        }else{
+            //로그인체크
+            $.ajax({
                 type:"post",
                 url:"/users/login",
                 data:{scode, pass},
                 success:function(data){
-                    console.log(data);
-                    if (!data) {
+                    console.log(data.PASS);
+                    if(!data){
                         alert("존재하지 않는 학번입니다.");
                         $(frm.scode).focus();
-                    } else if (data.PASS!=pass) {
+                    }else if(data.PASS!=pass){
                         alert("비밀번호가 일치하지 않습니다.");
                         $(frm.pass).focus();
-                    } else {
+                    }else{
                         sessionStorage.setItem("sname", data.SNAME);
                         sessionStorage.setItem("scode", data.SCODE);
-                        location.href="/";
+                        const target = sessionStorage.getItem("target");
+                        if(target){
+                            location.href=target;
+                        }else{
+                            location.href="/";
+                        }
                     }
                 }
             })

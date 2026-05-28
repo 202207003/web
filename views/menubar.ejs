@@ -23,41 +23,42 @@
                     <a class="nav-link" href="/posts">게시글</a>
                 </li>
             </ul>
-            <ul class="navbar-nav login">
+            <ul class="navbar-nav before">
                 <li class="nav-item">
                     <a class="nav-link active" href="/users/login">로그인</a>
                 </li>
             </ul>
-            <ul class="navbar-nav logout">
+            <ul class="navbar-nav after">
                 <li class="nav-item">
                     <a class="nav-link sname active" href="#"></a>
                 </li>                
                 <li class="nav-item">
                     <a class="nav-link logout active" href="#">로그아웃</a>
                 </li>
-            </ul>   
+            </ul>            
         </div>
     </div>
 </nav>
 <script>
     const sname=sessionStorage.getItem("sname");
     const scode=sessionStorage.getItem("scode");
-    if(!scode){
-        $(".login").show();
-        $(".logout").hide();
-    }else{
-        $(".login").hide();
-        $(".logout").show();
-        $(".sname").html(`${sname}(${scode})`);
-    }
-
+    
     $(".logout").on("click", function(e){
         e.preventDefault();
         if(confirm("정말로 로그아웃하실래요?")){
             sessionStorage.clear();
             location.href='/';
         }
-    })
+    });
+
+    if(sname){
+        $(".before").hide();
+        $(".after").show();
+        $(".sname").html(`${sname}(${scode})`);
+    }else{
+        $(".before").show();
+        $(".after").hide();
+    }
 
     // $(document).ready(function(){
     //     const pathname=window.location.pathname;
